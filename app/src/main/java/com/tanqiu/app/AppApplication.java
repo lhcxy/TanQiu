@@ -4,6 +4,7 @@ import com.tanqiu.BuildConfig;
 import com.tanqiu.R;
 import com.tanqiu.ui.login.activity.LoginActivity;
 
+import cn.jpush.android.api.JPushInterface;
 import me.goldze.mvvmhabit.base.BaseApplication;
 import me.goldze.mvvmhabit.crash.CaocConfig;
 import me.goldze.mvvmhabit.utils.KLog;
@@ -24,6 +25,8 @@ public class AppApplication extends BaseApplication {
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     private void initCrash() {

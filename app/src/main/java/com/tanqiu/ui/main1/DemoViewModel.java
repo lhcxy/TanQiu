@@ -3,7 +3,9 @@ package com.tanqiu.ui.main1;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.tanqiu.entity.FormEntity;
 import com.tanqiu.ui.form.FormFragment;
@@ -12,11 +14,24 @@ import com.tanqiu.ui.rv_multi.MultiRecycleViewFragment;
 import com.tanqiu.ui.main.activity.MainActivity;
 import com.tanqiu.ui.viewpager.activity.ViewPagerActivity;
 import com.tanqiu.ui.vp_frg.ViewPagerGroupFragment;
+import com.tanqiu.utils.HttpsUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by LiangHuan on 2019/3/20
@@ -74,6 +89,17 @@ public class DemoViewModel extends BaseViewModel {
             startContainerActivity(FormFragment.class.getCanonicalName());
         }
     });
+
+    //上传文件
+    public BindingCommand ScClick =new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+           File file =new File("/mnt/sdcard/ios.png");
+           HttpsUtils.PostFile("http://192.168.0.104:5555/file/multipart/upload",file);
+        }
+    });
+
+
     //表单修改点击事件
     public BindingCommand formModifyClick = new BindingCommand(new BindingAction() {
         @Override
@@ -114,4 +140,11 @@ public class DemoViewModel extends BaseViewModel {
             loadUrl.setValue("http://gdown.baidu.com/data/wisegame/a2cd8828b227b9f9/neihanduanzi_692.apk");
         }
     });
-}
+
+
+
+
+
+    }
+
+

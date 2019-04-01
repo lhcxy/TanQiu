@@ -76,5 +76,11 @@
             android:layout_height="wrap_content"
             android:text="文件下载"
             binding:onClickCommand="@{viewModel.fileDownLoadClick}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上传"
+            binding:onClickCommand="@{viewModel.ScClick}" />
     </LinearLayout>
 </layout>

@@ -15,6 +15,9 @@
  */
 package com.tanqiu.utils;
 
+import android.util.Log;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -24,6 +27,8 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
@@ -34,6 +39,15 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by LiangHuan 2019/3/11
@@ -202,4 +216,45 @@ public class HttpsUtils {
             return true;
         }
     };
+
+
+    /**
+     * 上传文件
+     *
+     * @param url
+     * @param file
+     */
+    public static void PostFile(String url, File file) {
+        OkHttpClient client = new OkHttpClient();
+        // form 表单形式上传
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        // MediaType.parse() 里面是上传的文件类型。
+        RequestBody body = RequestBody.create(MediaType.parse("image/png"), file);
+
+        requestBody.setType(MultipartBody.FORM);
+
+        requestBody.addFormDataPart("file", "ios.png", body);
+
+
+        Request request = new Request.Builder().url(url).post(requestBody.build()).build();
+        // readTimeout("请求超时时间" , 时间单位);
+        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("1", "onFailure");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String str = response.body().string();
+                    Log.i("1", response.message() + " , body " + str);
+
+                } else {
+                    Log.i("1", response.message() + " error : body " + response.body().string());
+                }
+            }
+        });
+    }
 }

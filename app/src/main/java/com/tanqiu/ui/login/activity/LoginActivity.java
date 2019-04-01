@@ -16,7 +16,7 @@ import me.goldze.mvvmhabit.base.BaseActivity;
 
 /**
  * Created by LiangHuan 2019/3/11
- * 一个MVVM模式的登陆界面
+ *
  */
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
     //ActivityLoginBinding类是databinding框架自定生成的,对应activity_login.xml
