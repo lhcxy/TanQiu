@@ -2,8 +2,10 @@ package com.tanqiu.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.tanqiu.BuildConfig;
+import com.tanqiu.app.URLConstant;
 
 import java.io.File;
 import java.util.Map;
@@ -38,8 +40,7 @@ public class RetrofitClient {
     private static final int DEFAULT_TIMEOUT = 20;
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
-    //服务端根路径
-    public static String baseUrl = "https://www.tanqiu.com/";
+
 
     private static Context mContext = Utils.getContext();
 
@@ -58,13 +59,27 @@ public class RetrofitClient {
     }
 
     private RetrofitClient() {
-        this(baseUrl, null);
+        this(URLConstant.BASE_URL, null);
     }
+
+
+//    public class HttpLogger implements HttpLoggingInterceptor.Logger {
+//        @Override
+//        public void log(String message) {
+//            Log.d("HttpLogInfo", message);//okHttp的详细日志会打印出来
+//        }
+//    }
+//
+//
+//    HttpLoggingIntercepto logInterceptor = new HttpLoggingInterceptor(new HttpLogger());//创建拦截对象
+//
+//        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//这一句一定要记得写，否则没有数据输出
+
 
     private RetrofitClient(String url, Map<String, String> headers) {
 
         if (TextUtils.isEmpty(url)) {
-            url = baseUrl;
+            url = URLConstant.BASE_URL;
         }
 
         if (httpCacheDirectory == null) {
@@ -88,8 +103,8 @@ public class RetrofitClient {
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
-                        .setLevel(Level.BASIC) //打印的等级
-                        .log(Platform.INFO) // 打印类型
+                        .setLevel(Level.HEADERS) //打印的等级
+                        //.log(Platform.WARN) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
                         .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
@@ -110,8 +125,8 @@ public class RetrofitClient {
     }
 
     /**
-     * create you ApiService
-     * Create an implementation of the API endpoints defined by the {@code service} interface.
+     * create ApiService
+     *
      */
     public <T> T create(final Class<T> service) {
         if (service == null) {

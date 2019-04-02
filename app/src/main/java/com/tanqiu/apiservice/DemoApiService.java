@@ -1,13 +1,17 @@
-package com.tanqiu.service;
+package com.tanqiu.apiservice;
 
 import com.tanqiu.entity.DemoEntity;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import me.goldze.mvvmhabit.http.BaseResponse;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by LiangHuan on 2019/3/20
@@ -20,4 +24,7 @@ public interface DemoApiService {
     @FormUrlEncoded
     @POST("action/apiv2/banner")
     Observable<BaseResponse<DemoEntity>> demoPost(@Field("catalog") String catalog);
+
+    @GET("api")
+    Observable<ResponseBody> Sms(@QueryMap Map<String, String> map);
 }

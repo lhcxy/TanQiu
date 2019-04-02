@@ -1,5 +1,7 @@
 package com.tanqiu.app;
 
+import android.content.Context;
+
 import com.tanqiu.BuildConfig;
 import com.tanqiu.R;
 import com.tanqiu.ui.login.activity.LoginActivity;
@@ -14,6 +16,8 @@ import me.goldze.mvvmhabit.utils.KLog;
  */
 
 public class AppApplication extends BaseApplication {
+    public static AppApplication app;
+    public static Context appContext;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,8 +29,11 @@ public class AppApplication extends BaseApplication {
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
+        //极光推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        appContext = getApplicationContext();
+        app = this;
     }
 
     private void initCrash() {
@@ -42,5 +49,13 @@ public class AppApplication extends BaseApplication {
 //                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
 //                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听
                 .apply();
+    }
+
+    public static Context getConText(){
+        return appContext;
+    }
+
+    public static AppApplication getApp(){
+        return app;
     }
 }

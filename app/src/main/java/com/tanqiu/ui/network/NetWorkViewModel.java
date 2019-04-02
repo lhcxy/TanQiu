@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.tanqiu.BR;
 import com.tanqiu.R;
 import com.tanqiu.entity.DemoEntity;
-import com.tanqiu.service.DemoApiService;
+import com.tanqiu.apiservice.DemoApiService;
 import com.tanqiu.utils.RetrofitClient;
 
 import java.util.concurrent.TimeUnit;
@@ -157,6 +157,8 @@ public class NetWorkViewModel extends BaseViewModel {
                     }
                 });
     }
+
+
 
     /**
      * 删除条目

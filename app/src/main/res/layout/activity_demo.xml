@@ -82,5 +82,11 @@
             android:layout_height="wrap_content"
             android:text="上传"
             binding:onClickCommand="@{viewModel.ScClick}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sms"
+            binding:onClickCommand="@{viewModel.SmsClick}" />
     </LinearLayout>
 </layout>

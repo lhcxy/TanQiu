@@ -3,11 +3,10 @@ package com.tanqiu.ui.main1;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.tanqiu.entity.FormEntity;
+import com.tanqiu.subscribe.LoginSubscribe;
 import com.tanqiu.ui.form.FormFragment;
 import com.tanqiu.ui.network.NetWorkFragment;
 import com.tanqiu.ui.rv_multi.MultiRecycleViewFragment;
@@ -17,21 +16,14 @@ import com.tanqiu.ui.vp_frg.ViewPagerGroupFragment;
 import com.tanqiu.utils.HttpsUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by LiangHuan on 2019/3/20
@@ -94,10 +86,23 @@ public class DemoViewModel extends BaseViewModel {
     public BindingCommand ScClick =new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-           File file =new File("/mnt/sdcard/ios.png");
-           HttpsUtils.PostFile("http://192.168.0.104:5555/file/multipart/upload",file);
+           File file =new File("/mnt/shared/Image/ios.png");
+           HttpsUtils.PostFile("http://192.168.0.251:5555/file/multipart/upload",file);
         }
     });
+
+    //Sms
+    public BindingCommand SmsClick =new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            Map<String,String> map =new HashMap<>();
+            map.put("version","v1");
+            map.put("city","长沙");
+            LoginSubscribe.getSmsDataForMap(map);
+       }
+    });
+
+
 
 
     //表单修改点击事件
