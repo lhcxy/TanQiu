@@ -17,4 +17,9 @@ public interface HttpApiService {
     @POST("api")
     @FormUrlEncoded
     Observable<ResponseBody> Sms(@FieldMap Map<String, String> map);
+
+    //登陆
+    @POST("api/user/login")
+    @FormUrlEncoded
+    Observable<ResponseBody> Login(@FieldMap Map<String, String> map);
 }

@@ -24,7 +24,4 @@ public interface DemoApiService {
     @FormUrlEncoded
     @POST("action/apiv2/banner")
     Observable<BaseResponse<DemoEntity>> demoPost(@Field("catalog") String catalog);
-
-    @GET("api")
-    Observable<ResponseBody> Sms(@QueryMap Map<String, String> map);
 }

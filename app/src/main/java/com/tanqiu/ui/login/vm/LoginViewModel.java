@@ -7,9 +7,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.tanqiu.subscribe.LoginSubscribe;
 import com.tanqiu.ui.main1.DemoActivity;
 import com.tanqiu.ui.main.activity.MainActivity;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -100,26 +103,33 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
         //RaJava模拟一个延迟操作
-        Observable.just("")
-                .delay(3, TimeUnit.SECONDS) //延迟3秒
-                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showDialog();
-                    }
-                })
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        dismissDialog();
-                        //进入DemoActivity页面
-                        startActivity(MainActivity.class);
-                        //关闭页面
-                        finish();
-                    }
-                });
+//        Observable.just("")
+//                .delay(3, TimeUnit.SECONDS) //延迟3秒
+//                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
+//                .compose(RxUtils.schedulersTransformer()) //线程调度
+//                .doOnSubscribe(new Consumer<Disposable>() {
+//                    @Override
+//                    public void accept(Disposable disposable) throws Exception {
+//                        showDialog();
+//                    }
+//                })
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(Object o) throws Exception {
+//                        dismissDialog();
+//                        //进入DemoActivity页面
+//                        startActivity(MainActivity.class);
+//                        //关闭页面
+//                        finish();
+//                    }
+//                });
+
+
+        Map<String,String> map =new HashMap<>();
+        map.put("loginType","mobile");
+        map.put("password","youtu708");
+        map.put("username","root");
+        LoginSubscribe.Login(map);
     }
 
     @Override
