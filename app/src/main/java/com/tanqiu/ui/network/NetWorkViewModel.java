@@ -11,7 +11,7 @@ import com.tanqiu.BR;
 import com.tanqiu.R;
 import com.tanqiu.entity.DemoEntity;
 import com.tanqiu.apiservice.DemoApiService;
-import com.tanqiu.utils.RetrofitClient;
+import com.tanqiu.utils.http.RetrofitClient;
 
 import java.util.concurrent.TimeUnit;
 

@@ -13,7 +13,7 @@ import com.tanqiu.ui.rv_multi.MultiRecycleViewFragment;
 import com.tanqiu.ui.main.activity.MainActivity;
 import com.tanqiu.ui.viewpager.activity.ViewPagerActivity;
 import com.tanqiu.ui.vp_frg.ViewPagerGroupFragment;
-import com.tanqiu.utils.HttpsUtils;
+import com.tanqiu.utils.http.HttpsUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,7 +23,6 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by LiangHuan on 2019/3/20

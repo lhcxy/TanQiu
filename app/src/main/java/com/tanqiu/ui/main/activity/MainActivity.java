@@ -13,6 +13,7 @@ import com.tanqiu.ui.main.fragment.MatchFragment;
 import com.tanqiu.ui.main.fragment.GuessFragment;
 import com.tanqiu.ui.main.fragment.ChatFragment;
 import com.tanqiu.ui.main.fragment.MyFragment;
+import com.tanqiu.ui.main.vm.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
  * Created by LiangHuan on 2019/3/20
  */
 
-public class MainActivity extends BaseActivity<ActivityTabBarBinding, BaseViewModel> {
+public class MainActivity extends BaseActivity<ActivityTabBarBinding, HomeViewModel> {
     private List<Fragment> mFragments;
 
     @Override

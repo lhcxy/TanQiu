@@ -1,4 +1,4 @@
-package com.tanqiu.utils;
+package com.tanqiu.utils.http;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +14,8 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by Lianghuan 2019-4-2
@@ -74,21 +76,29 @@ public class CompressUtils {
     /**
      * 数据解压缩
      *
-     * @param is
+     * @param body
      * @throws Exception return 返回解析好的json字符串
      */
-    public static String decompress(InputStream is) throws Exception {
+    public static String decompress(ResponseBody body) throws Exception {
 
-        GZIPInputStream gis = new GZIPInputStream(is);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        int count;
-        byte data[] = new byte[BUFFER_LENGTH];
-        while ((count = gis.read(data, 0, BUFFER_LENGTH)) != -1) {
-            os.write(data, 0, count);
+//        GZIPInputStream gis = new GZIPInputStream(is);
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        int count;
+//        byte data[] = new byte[BUFFER_LENGTH];
+//        while ((count = gis.read(data, 0, BUFFER_LENGTH)) != -1) {
+//            os.write(data, 0, count);
+//        }
+//        os.close();
+//        gis.close();
+//        return new String(os.toByteArray());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int i;
+        while ((i = body.byteStream().read()) != -1) {
+            baos.write(i);
         }
-        os.close();
-        gis.close();
-        return new String(os.toByteArray());
+        String str = baos.toString();
+        baos.close();
+        return  str;
     }
 
 

@@ -1,4 +1,4 @@
-package com.tanqiu.utils;
+package com.tanqiu.utils.http;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

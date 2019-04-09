@@ -10,20 +10,20 @@ import android.view.View;
 import com.tanqiu.subscribe.LoginSubscribe;
 import com.tanqiu.ui.main1.DemoActivity;
 import com.tanqiu.ui.main.activity.MainActivity;
+import com.tanqiu.utils.GsonUtils;
+import com.tanqiu.utils.http.OnSuccessAndFaultListener;
+import com.tanqiu.utils.http.OnSuccessAndFaultSub;
+
+import org.w3c.dom.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.binding.command.BindingConsumer;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
-import me.goldze.mvvmhabit.utils.RxUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -129,7 +129,19 @@ public class LoginViewModel extends BaseViewModel {
         map.put("loginType","mobile");
         map.put("password","youtu708");
         map.put("username","root");
-        LoginSubscribe.Login(map);
+        LoginSubscribe.Login(map,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                GsonUtils.fromJson(result, Entity.class);
+                startActivity(MainActivity.class);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+              ToastUtils.showShortSafe(errorMsg);
+            }
+        }));
+
     }
 
     @Override

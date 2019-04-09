@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tanqiu.utils;
+package com.tanqiu.utils.http;
 
 import android.util.Log;
 

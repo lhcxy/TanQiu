@@ -1,8 +1,7 @@
-package com.tanqiu.utils;
+package com.tanqiu.utils.http;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.tanqiu.BuildConfig;
 import com.tanqiu.app.URLConstant;
@@ -14,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import me.goldze.mvvmhabit.http.cookie.CookieJarImpl;
 import me.goldze.mvvmhabit.http.cookie.store.PersistentCookieStore;
@@ -26,7 +26,6 @@ import me.goldze.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.platform.Platform;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -96,8 +95,9 @@ public class RetrofitClient {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
-//                .cache(cache)
+                .cache(cache)
                 .addInterceptor(new BaseInterceptor(headers))
+                //缓存
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new LoggingInterceptor
@@ -113,14 +113,20 @@ public class RetrofitClient {
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
+                //超时重连
+                .retryOnConnectionFailure(true)
                 // 这里你可以根据自己的机型设置同时连接的个数和时间，我这里8个，和每个保持时间为10s
                 .build();
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(url)
-                .build();
+    //    if(NetUtils.isNetworkConnected()) {
+            retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(url)
+                    .build();
+//        }else{
+//            ToastUtils.showShortSafe("网络");
+//        }
 
     }
 
@@ -154,5 +160,23 @@ public class RetrofitClient {
                 .subscribe(subscriber);
 
         return null;
+    }
+
+
+    /**
+     * 请求失败重连次数
+     */
+    private int RETRY_COUNT = 0;
+    /**
+     * 设置订阅 和 所在的线程环境
+     */
+    public <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {
+
+        o.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .retry(RETRY_COUNT)//请求失败重连次数
+                .subscribe(s);
+
     }
 }

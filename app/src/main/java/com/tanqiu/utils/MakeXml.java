@@ -15,21 +15,21 @@ public class MakeXml {
     private final static String WTemplate = "<dimen name=\"x{0}\">{1}px</dimen>\n";
     private final static String HTemplate = "<dimen name=\"y{0}\">{1}px</dimen>\n";
 
-    public static void main(String[] args) {
-        makeString(320, 480);
-        makeString(480,800);
-        makeString(480, 854);
-        makeString(540, 960);
-        makeString(600, 1024);
-        makeString(720, 1184);
-        makeString(720, 1196);
-        makeString(720, 1280);
-        makeString(768, 1024);
-        makeString(800, 1280);
-        makeString(1080, 1812);
-        makeString(1080, 1920);
-        makeString(1440, 2560);
-    }
+//    public static void main(String[] args) {
+//        makeString(320, 480);
+//        makeString(480,800);
+//        makeString(480, 854);
+//        makeString(540, 960);
+//        makeString(600, 1024);
+//        makeString(720, 1184);
+//        makeString(720, 1196);
+//        makeString(720, 1280);
+//        makeString(768, 1024);
+//        makeString(800, 1280);
+//        makeString(1080, 1812);
+//        makeString(1080, 1920);
+//        makeString(1440, 2560);
+//    }
 
     public static void makeString(int w, int h) {
 
